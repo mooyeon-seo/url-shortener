@@ -4,7 +4,7 @@ FROM node:23-alpine AS base
 FROM base AS deps
 WORKDIR /app
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN yarn
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -33,4 +33,4 @@ EXPOSE 3000
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 
-CMD ["node", "server.js"]
+CMD ["yarn", "start"]
