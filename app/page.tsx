@@ -81,7 +81,7 @@ const UrlShortener = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <Card className="glass-card w-full max-w-2xl p-8 space-y-8">
+      <Card className="glass-card w-full max-w-2xl p-8 space-y-8 rounded-lg">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold tracking-tighter">
             URL Shortener & QR Generator
@@ -103,7 +103,7 @@ const UrlShortener = () => {
             <div className="flex gap-2">
               <Button
                 type="button"
-                variant={mode === 'url' ? "outline" : "default"}
+                variant={mode === 'url' ? "default" : "outline"}
                 onClick={() => setMode('url')}
               >
                 <LinkIcon className="w-4 h-4 mr-2" />
@@ -111,7 +111,7 @@ const UrlShortener = () => {
               </Button>
               <Button
                 type="button"
-                variant={mode === 'qr' ? "outline" : "default"}
+                variant={mode === 'qr' ? "default" : "outline"}
                 onClick={() => setMode('qr')}
               >
                 <QrCode className="w-4 h-4 mr-2" />
