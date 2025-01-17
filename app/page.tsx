@@ -19,15 +19,21 @@ const UrlShortener = () => {
       toast.error("Please enter a URL");
       return;
     }
-
+  
     setLoading(true);
     try {
-      // For demo purposes, we're using a mock short URL
-      // In a real app, you'd call your backend API here
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setResult(`https://short.url/${Math.random().toString(36).substr(2, 6)}`);
+      const response = await fetch('/shorten', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url })
+      });
+      
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      
+      setResult(data.shortUrl);
       toast.success("URL shortened successfully!");
-    } catch (error) {
+    } catch {
       toast.error("Failed to shorten URL");
     } finally {
       setLoading(false);
