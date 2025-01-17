@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "_middleware.txt", "middleware.ts_"  ],
+, "_middleware.txt", "middleware.ts"  ],
   "exclude": [
     "node_modules"
   ]
