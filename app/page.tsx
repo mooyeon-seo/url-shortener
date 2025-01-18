@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Card } from "../components/ui/card";
 import { toast } from "sonner";
 import { Copy, QrCode, Link as LinkIcon, Loader2 } from "lucide-react";
 import QRCode from 'qrcode';
