@@ -1,6 +1,6 @@
 import prisma from '@/config/db'
 import { Redis } from 'ioredis'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // Configure Redis with explicit database selection
 const redis = new Redis({
@@ -11,11 +11,8 @@ const redis = new Redis({
 
 redis.on('error', (err) => console.error('Redis Client Error', err));
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } } // Destructure from params
-) {
-  const { id } = await params; // Accessing the ID from params, not from request.query
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   if (!id || typeof id !== 'string') {
     return NextResponse.json(
