@@ -1,28 +1,35 @@
+import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import redis from '@/lib/redis'
-import { NextRequest, NextResponse } from 'next/server'
+
+const appBaseUrl = process.env.NODE_ENV === 'development' 
+  ? 'http://localhost:3000' 
+  : 'http://shorten.insufficient.ca';
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-
-  if (!id || typeof id !== 'string') {
-    return NextResponse.json(
-      { error: 'Invalid ID format' },
-      { status: 400 }
-    );
-  }
-
   try {
-    const cachedUrl = await redis.get(`url:${id}`); // Use `id` directly here
-    if (cachedUrl) {
+    const { id } = await params;
+
+    if (!id || typeof id !== 'string') {
+      return NextResponse.json(
+        { error: 'Invalid ID format' },
+        { status: 400 }
+      );
+    }
+
+    // Step 1: Check Redis cache first
+    const cachedLongUrl = await redis.get(`${id}`);
+    if (cachedLongUrl) {
+      // Update click count asynchronously
       await prisma.url.update({
         where: { shortUrl: id },
         data: { clicks: { increment: 1 } }
-      });
+      }).catch(console.error); // Non-blocking error handling
 
-      return NextResponse.redirect(cachedUrl);
+      return NextResponse.redirect(cachedLongUrl);
     }
 
+    // Step 2: If not in cache, check database
     const url = await prisma.url.update({
       where: { shortUrl: id },
       data: { clicks: { increment: 1 } }
@@ -35,11 +42,13 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       );
     }
 
-    await redis.set(`url:${id}`, url.longUrl, 'EX', 86400); // Use `id` here too
+    // Cache the result in Redis
+    await redis.set(`${id}`, url.longUrl, 'EX', 3600); // Cache for 1 hour
+
     return NextResponse.redirect(url.longUrl);
 
   } catch (error) {
-    console.error('Error in API route:', error);
+    console.error('Error retrieving URL:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

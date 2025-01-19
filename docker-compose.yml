@@ -29,8 +29,8 @@ services:
       POSTGRES_DB: urlshortener
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
+    # ports:
+    #   - '5432:5432'
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d urlshortener"]
       interval: 5s
@@ -44,8 +44,8 @@ services:
     image: redis:7-alpine
     volumes:
       - redis_data:/data
-    ports:
-      - '6379:6379'
+    # ports:
+    #   - '6379:6379'
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
