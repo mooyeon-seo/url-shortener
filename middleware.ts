@@ -1,17 +1,14 @@
-import { Redis } from "ioredis";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import redis from "@/lib/redis";
-import { ipAddress } from '@vercel/functions'
+import { ipAddress } from "@vercel/functions";
 
-async function checkRateLimit(ip: string): Promise<NextResponse | null> {
-    const limit = 100; // requests per window
-    const window = 3600; // 1 hour in seconds
+async function checkRateLimit(ip: string, limit: number, window: number): Promise<NextResponse | null> {
     const key = `rate-limit:${ip}`;
 
     const count = await redis.incr(key);
     if (count === 1) {
-        await redis.expire(key, window);
+        await redis.expire(key, window); // Set expiry for new keys
     }
 
     if (count > limit) {
@@ -25,16 +22,24 @@ async function checkRateLimit(ip: string): Promise<NextResponse | null> {
 }
 
 export async function middleware(request: NextRequest) {
-    const ip = ipAddress(request) || request.headers.get('x-forwarded-for') || "127.0.0.1";
-    const rateLimit = await checkRateLimit(ip);
+    const ip =
+        ipAddress(request) || 
+        request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
+        "127.0.0.1"; // Handle multiple proxies
 
-    if (rateLimit) {
-        return rateLimit;
+    const limit = Number(process.env.RATE_LIMIT || 100); // Environment variables for flexibility
+    const window = Number(process.env.RATE_LIMIT_WINDOW || 3600);
+
+    try {
+        const rateLimit = await checkRateLimit(ip, limit, window);
+        if (rateLimit) return rateLimit;
+    } catch (error) {
+        console.error("Rate limiting error:", error); // Log Redis errors
     }
 
     return NextResponse.next();
 }
 
 export const config = {
-    matcher: '/:path*',
-}
+    matcher: "/shorten", // Only apply to the /shorten endpoint
+};
