@@ -9,7 +9,7 @@ datasource db {
 
 model Url {
   id        String   @id @default(cuid())
-  longUrl   String
+  longUrl   String   @unique
   shortUrl  String   @unique
   createdAt DateTime @default(now())
   clicks    Int      @default(0)
