@@ -20,9 +20,13 @@ const config = {
   		}
   	},
   	extend: {
-		fontFamily: {
-			"dope": ["Pinyon Script", "Mr Dafoe", "serif"],
-		},
+  		fontFamily: {
+  			'dope': [
+  				'Pinyon Script',
+  				'Mr Dafoe',
+  				'serif'
+  			]
+  		},
   		boxShadow: {
   			input: '`0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`'
   		},
@@ -69,6 +73,13 @@ const config = {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
+  			},
+  			chart: {
+  				'1': 'hsl(var(--chart-1))',
+  				'2': 'hsl(var(--chart-2))',
+  				'3': 'hsl(var(--chart-3))',
+  				'4': 'hsl(var(--chart-4))',
+  				'5': 'hsl(var(--chart-5))'
   			}
   		},
   		borderRadius: {
