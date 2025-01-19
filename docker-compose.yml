@@ -6,10 +6,10 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/urlshortener
-      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://postgres:password@db:5432/urlshortener
       - NEXT_PUBLIC_BASE_URL=http://localhost:3000
       - NODE_ENV=production
+      
     networks:
       - app-network
     ports:

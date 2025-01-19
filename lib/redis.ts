@@ -1,12 +1,8 @@
 // lib/redis.ts
 import Redis from 'ioredis';
 
-if (!process.env.REDIS_URL) {
-  throw new Error('REDIS_URL is not defined in environment variables');
-}
-
 const redis = new Redis({
-  host: 'localhost',
+  host: 'redis',
   port: 6379,
   db: 0  // Explicitly set database index
 })

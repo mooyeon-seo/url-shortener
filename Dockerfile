@@ -15,6 +15,8 @@ RUN yarn
 # Copy all source code into the container
 COPY . .
 
+RUN npx prisma generate
+
 # Build the Next.js application
 RUN yarn build
 
@@ -28,9 +30,14 @@ WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/package.json ./
+COPY --from=builder /app/prisma ./prisma
+
+# Create an entrypoint script to handle startup
+COPY docker-entrypoint.sh ./
+RUN chmod +x ./docker-entrypoint.sh
 
 # Expose the port that the app will run on
 EXPOSE 3000
 
 # Start the application
-CMD ["yarn", "start"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
