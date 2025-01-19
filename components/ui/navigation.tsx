@@ -9,12 +9,6 @@ const Navigation = () => {
                 <Link href="/">URL Shortener</Link>
             </div>
             <div className="space-x-4">
-                <Link href="/" className="text-gray-700 hover:text-gray-900">
-                    Home
-                </Link>
-                <Link href="/about" className="text-gray-700 hover:text-gray-900">
-                    About
-                </Link>
                 <ThemeSwitcher />
             </div>
         </nav>
