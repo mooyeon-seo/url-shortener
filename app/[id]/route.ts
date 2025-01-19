@@ -1,15 +1,6 @@
-import prisma from '@/config/db'
-import { Redis } from 'ioredis'
+import prisma from '@/lib/prisma'
+import redis from '@/lib/redis'
 import { NextRequest, NextResponse } from 'next/server'
-
-// Configure Redis with explicit database selection
-const redis = new Redis({
-  host: 'localhost',
-  port: 6379,
-  db: 0  // Explicitly set database index
-})
-
-redis.on('error', (err) => console.error('Redis Client Error', err));
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
