@@ -9,9 +9,20 @@ datasource db {
 }
 
 model Url {
+  id        String       @id @default(cuid())
+  shortUrl  String       @unique
+  longUrl   String       @unique
+  clicks    Int          @default(0)
+  createdAt DateTime     @default(now())
+  history   UrlHistory[]
+}
+
+model UrlHistory {
   id        String   @id @default(cuid())
-  longUrl   String   @unique
-  shortUrl  String   @unique
-  createdAt DateTime @default(now())
-  clicks    Int      @default(0)
+  urlId     String
+  url       Url      @relation(fields: [urlId], references: [id])
+  timestamp DateTime @default(now())
+  ipAddress String?
+  userAgent String?
+  referer   String?
 }
