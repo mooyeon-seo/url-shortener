@@ -2,7 +2,7 @@
 import Redis from 'ioredis';
 
 const redis = new Redis({
-  host: 'redis',
+  host: 'localhost',
   port: 6379,
   db: 0  // Explicitly set database index
 })
