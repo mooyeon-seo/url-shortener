@@ -2,9 +2,7 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import redis from '@/lib/redis'
 
-const appBaseUrl = process.env.NODE_ENV === 'development' 
-  ? 'http://localhost:3000' 
-  : 'http://shorten.insufficient.ca';
+const appBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
