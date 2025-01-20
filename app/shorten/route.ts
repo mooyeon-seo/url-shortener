@@ -3,7 +3,7 @@ import crypto from 'crypto'
 import prisma from '@/lib/prisma'
 import redis from '@/lib/redis'
 
-const appBaseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://shorten.insufficient.ca';
+const appBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
 function generateShortUrl(longUrl: string): string {
   const hash = crypto.createHash('sha256').update(longUrl).digest('base64').slice(0, 10);
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
       await redis.set(longUrl, shortUrl, 'EX', 3600);
 
       return NextResponse.json({
-        shortUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/${savedUrl.shortUrl}`,
+        shortUrl: `${appBaseUrl}/${savedUrl.shortUrl}`,
         originalUrl: savedUrl.longUrl,
         status: 200,
       })
