@@ -3,10 +3,10 @@ import crypto from 'crypto'
 import prisma from '@/lib/prisma'
 import redis from '@/lib/redis'
 
-const appBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const appBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://url.insufficient.ca'
 
 function generateShortUrl(longUrl: string): string {
-  const hash = crypto.createHash('sha256').update(longUrl).digest('base64').slice(0, 10);
+  const hash = crypto.createHash('sha256').update(longUrl).digest('base64url').slice(0, 10);
   return hash;
 }
 
