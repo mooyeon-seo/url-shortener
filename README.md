@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# URL Shortener
+
+A modern URL shortening service built with Next.js.
+
+Visit [https://url.insufficient.ca](http://url.insufficient.ca) to see the demo application.
+
+## Features
+
+- Create shortened URLs
+- Track click statistics
+- Custom URL aliases (optional)
+- Fast redirect performance
+- Modern, responsive UI
+- QR code generation for shortened URLs
+
+## Tech Stack
+
+- Next.js 15
+- TypeScript
+- Tailwind CSS
+- Prisma 5.17.0
+- PostgreSQL
 
 ## Getting Started
 
-First, run the development server:
-
+1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/mooyeon-seo/url-shortener.git
+```
+2. Install dependencies:
+```bash
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Set up environment variables: .env.local
+```bash
+DATABASE_URL=
+# Fill in your own domain: if running locally leave it as is
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
+Set up environment variables: .env
+```bash
+# This is duplicative but required for prisma
+DATABASE_URL=
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Start the development server:
+```bash
+npm run dev
+```
+Visit [http://localhost:3000](http://localhost:3000) to view the application.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## API Usage
+Create a shortened URL:
+```bash
+POST /api/shorten
+{
+  "url": "https://your-long-url.com",
+}
+```
+Returns a downloadable PNG image of the QR code for the shortened URL.
 
-## Learn More
+## Contributing
 
-To learn more about Next.js, take a look at the following resources:
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[MIT](https://choosealicense.com/licenses/mit/)
