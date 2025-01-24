@@ -58,7 +58,6 @@ POST /api/shorten
   "url": "https://your-long-url.com",
 }
 ```
-Returns a downloadable PNG image of the QR code for the shortened URL.
 
 ## Contributing
 
